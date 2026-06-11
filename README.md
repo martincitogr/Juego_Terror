@@ -36,11 +36,8 @@ python3 -m http.server 8666     # luego abre http://localhost:8666
 npx serve .
 ```
 
-> Se necesita conexión a internet la primera vez (el motor Three.js se carga
-> desde CDN). **Modo offline:** descarga
-> [three.module.js](https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js)
-> en una carpeta `libs/` y cambia la ruta del `importmap` en `index.html`
-> a `"./libs/three.module.js"`.
+> El motor Three.js viene incluido en `libs/`, así que el juego
+> funciona **completamente sin conexión**.
 
 ## Controles
 

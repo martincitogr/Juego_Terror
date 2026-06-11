@@ -30,10 +30,10 @@ yawObj.add(pitchObj);
 scene.add(yawObj);
 
 // Luz ambiental mínima: oscuridad casi total sin linterna
-scene.add(new THREE.AmbientLight(0x232028, 0.5));
+scene.add(new THREE.AmbientLight(0x2a2733, 1.1));
 
 // Linterna del jugador
-const flashlight = new THREE.SpotLight(0xffe6c0, 110, 26, 0.46, 0.55, 1.7);
+const flashlight = new THREE.SpotLight(0xffe6c0, 65, 28, 0.58, 0.7, 1.45);
 flashlight.castShadow = true;
 flashlight.shadow.mapSize.set(1024, 1024);
 flashlight.shadow.camera.near = 0.2;
@@ -336,7 +336,7 @@ function update(dt) {
   // ---- Linterna ----
   if (state.flashlightOn && state.battery > 0) {
     state.battery = Math.max(0, state.battery - dt * (100 / 110)); // ~110 s de batería
-    let intensity = 110;
+    let intensity = 65;
     if (state.battery < 22) intensity *= 0.4 + 0.6 * (state.battery / 22); // se va apagando
     // Parpadeo cuando el enemigo anda cerca
     if (threatLevel > 0.55) {
