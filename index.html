@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EL PABELLÓN — Juego de Terror 3D</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./libs/three.module.js"
+      }
+    }
+  </script>
+</head>
+<body>
+  <canvas id="game"></canvas>
+
+  <!-- Vignette permanente -->
+  <div id="vignette"></div>
+
+  <!-- HUD -->
+  <div id="hud" class="hidden">
+    <div id="objective">FUSIBLES <span id="fuse-count">0</span>/6</div>
+    <div id="battery-wrap">
+      <div class="bar-label">🔦 LINTERNA</div>
+      <div class="bar"><div id="battery-bar"></div></div>
+    </div>
+    <div id="stamina-wrap">
+      <div class="bar-label">RESISTENCIA</div>
+      <div class="bar"><div id="stamina-bar"></div></div>
+    </div>
+    <div id="prompt" class="hidden"></div>
+  </div>
+
+  <!-- Menú principal / pausa -->
+  <div id="menu">
+    <h1>EL PABELLÓN</h1>
+    <p class="subtitle">Hospital psiquiátrico San Bartolomé — clausurado en 1974</p>
+    <div class="story">
+      Te despertaste dentro. La única salida está sellada por un sistema eléctrico antiguo.<br>
+      Encuentra los <b>6 fusibles</b> repartidos por el pabellón y llega a la puerta de salida.<br>
+      No estás solo. <b>Él</b> te oye. <b>Él</b> te busca.
+    </div>
+    <div class="controls">
+      <span><b>WASD / Flechas</b> moverse</span>
+      <span><b>Ratón</b> mirar</span>
+      <span><b>Shift</b> correr</span>
+      <span><b>F</b> linterna</span>
+      <span><b>E</b> interactuar</span>
+      <span><b>Esc</b> pausa</span>
+    </div>
+    <button id="btn-start">ENTRAR</button>
+    <p class="hint">Usa auriculares. Juega a oscuras.</p>
+  </div>
+
+  <!-- Jumpscare -->
+  <div id="jumpscare" class="hidden">
+    <canvas id="scare-face" width="512" height="512"></canvas>
+  </div>
+
+  <!-- Pantalla de muerte -->
+  <div id="death" class="hidden">
+    <h1>TE ENCONTRÓ</h1>
+    <p id="death-stats"></p>
+    <button id="btn-retry">VOLVER A INTENTARLO</button>
+  </div>
+
+  <!-- Pantalla de victoria -->
+  <div id="win" class="hidden">
+    <h1>ESCAPASTE</h1>
+    <p id="win-stats"></p>
+    <p class="subtitle">Pero algo te siguió hasta fuera…</p>
+    <button id="btn-again">JUGAR OTRA VEZ</button>
+  </div>
+
+  <!-- Pantalla de error de carga -->
+  <div id="load-error" class="hidden">
+    <h1>ERROR DE CARGA</h1>
+    <p>No se pudo cargar el motor 3D (Three.js).<br>
+    Comprueba tu conexión a internet o consulta el modo offline en el README.</p>
+  </div>
+
+  <script type="module" src="js/main.js" onerror="document.getElementById('load-error').classList.remove('hidden')"></script>
+</body>
+</html>

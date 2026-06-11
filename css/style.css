@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&family=Crimson+Text:ital@0;1&display=swap');
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: #000;
+  font-family: 'Crimson Text', Georgia, serif;
+  color: #cfc8b8;
+  user-select: none;
+  cursor: default;
+}
+
+#game { position: fixed; inset: 0; display: block; }
+
+.hidden { display: none !important; }
+
+/* ---- Vignette + grano ---- */
+#vignette {
+  position: fixed; inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,.55) 85%, rgba(0,0,0,.92) 100%);
+  z-index: 5;
+}
+#vignette::after {
+  content: '';
+  position: absolute; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+}
+
+/* ---- HUD ---- */
+#hud { position: fixed; inset: 0; pointer-events: none; z-index: 10; }
+
+#objective {
+  position: absolute; top: 24px; left: 28px;
+  font-family: 'Special Elite', monospace;
+  font-size: 20px; letter-spacing: 3px;
+  color: #b8ae93;
+  text-shadow: 0 0 8px rgba(0,0,0,.9);
+}
+
+#battery-wrap { position: absolute; bottom: 28px; left: 28px; width: 200px; }
+#stamina-wrap { position: absolute; bottom: 28px; right: 28px; width: 200px; }
+
+.bar-label {
+  font-family: 'Special Elite', monospace;
+  font-size: 11px; letter-spacing: 2px;
+  margin-bottom: 5px; opacity: .75;
+}
+.bar {
+  height: 7px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.18);
+}
+.bar > div { height: 100%; width: 100%; transition: width .15s linear; }
+#battery-bar { background: linear-gradient(90deg, #6b5a23, #c9a93f); }
+#stamina-bar { background: linear-gradient(90deg, #4a4a52, #9a9ab0); }
+
+#prompt {
+  position: absolute; bottom: 16%; left: 50%;
+  transform: translateX(-50%);
+  font-family: 'Special Elite', monospace;
+  font-size: 18px; letter-spacing: 2px;
+  color: #e8dfc8;
+  text-shadow: 0 0 12px rgba(0,0,0,1);
+  animation: pulse 1.4s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100% { opacity: .55; } 50% { opacity: 1; } }
+
+/* ---- Overlays a pantalla completa ---- */
+#menu, #death, #win, #load-error {
+  position: fixed; inset: 0;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  gap: 18px;
+  background: radial-gradient(ellipse at center, rgba(8,8,10,.92) 0%, #000 100%);
+  z-index: 50;
+  text-align: center;
+  padding: 24px;
+}
+
+h1 {
+  font-family: 'Special Elite', serif;
+  font-size: clamp(42px, 8vw, 84px);
+  letter-spacing: 14px;
+  color: #8d2f2f;
+  text-shadow: 0 0 25px rgba(141,47,47,.5), 0 0 4px #000;
+  animation: titleFlicker 7s infinite;
+}
+@keyframes titleFlicker {
+  0%, 100% { opacity: 1; }
+  92% { opacity: 1; }
+  93% { opacity: .4; }
+  94% { opacity: 1; }
+  96% { opacity: .6; }
+  97% { opacity: 1; }
+}
+
+.subtitle { font-style: italic; opacity: .6; font-size: 17px; }
+
+.story { font-size: 18px; line-height: 1.7; max-width: 620px; opacity: .85; }
+
+.controls {
+  display: flex; flex-wrap: wrap; justify-content: center;
+  gap: 10px 26px; max-width: 640px;
+  font-family: 'Special Elite', monospace;
+  font-size: 13px; opacity: .7;
+}
+
+button {
+  font-family: 'Special Elite', serif;
+  font-size: 22px; letter-spacing: 6px;
+  padding: 14px 52px;
+  margin-top: 10px;
+  background: transparent;
+  color: #cfc8b8;
+  border: 1px solid #6e5f4a;
+  cursor: pointer;
+  transition: all .25s;
+}
+button:hover {
+  background: #8d2f2f;
+  border-color: #8d2f2f;
+  color: #fff;
+  box-shadow: 0 0 30px rgba(141,47,47,.6);
+}
+
+.hint { font-size: 14px; opacity: .4; font-style: italic; }
+
+#death h1 { color: #a01b1b; }
+#win h1 { color: #7a8d5a; text-shadow: 0 0 25px rgba(122,141,90,.4); }
+
+/* ---- Jumpscare ---- */
+#jumpscare {
+  position: fixed; inset: 0;
+  background: #000;
+  display: flex; align-items: center; justify-content: center;
+  z-index: 100;
+}
+#scare-face {
+  width: min(90vmin, 700px);
+  height: min(90vmin, 700px);
+  animation: scare .9s ease-out forwards;
+}
+@keyframes scare {
+  0%   { transform: scale(.4) rotate(-2deg); opacity: 0; }
+  10%  { transform: scale(1.05) rotate(1deg); opacity: 1; }
+  30%  { transform: scale(1.15) rotate(-1.5deg) translate(8px, -6px); }
+  50%  { transform: scale(1.3) rotate(1deg) translate(-10px, 8px); }
+  70%  { transform: scale(1.45) rotate(-1deg) translate(6px, -4px); }
+  100% { transform: scale(1.65) rotate(.5deg); }
+}
